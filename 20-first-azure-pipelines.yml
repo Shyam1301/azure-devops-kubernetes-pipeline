@@ -9,33 +9,27 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-jobs:
-- job: Job1
-  steps:
-  - script: echo Job1 Hello, world, Changed!
-    displayName: 'Run a one-line script'
-
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: 'Run a multi-line script'
-
-- job: Job2
-  dependsOn: job1
-  steps:
-  - script: echo Job2 !
-    displayName: 'Run a one-line script'
-
-- job: Job3
-  dependsOn: job2
-  steps:
-  - script: echo Job3 !
-    displayName: 'Run a one-line script'
-
-- job: Job4
-  dependsOn: 
-   - job2
-   - job3
-  steps:
-  - script: echo Job4 !
-    displayName: 'Run a one-line script'
+stages:
+  - stage: Build
+    jobs:
+    - job: FirstJob
+      steps:
+        - bash: echo Build FirstJob
+    - job: SecondJob
+      steps:
+        - bash: echo Build SecondJob
+  - stage: DevDeploy
+    jobs:
+    - job: DevDeploy
+      steps:
+        - bash: echo Build DevDeploy
+  - stage: QADeploy
+    jobs:
+    - job: QADeploy
+      steps:
+        - bash: echo Build QADeploy
+  - stage: ProdDeploy
+    jobs:
+    - job: ProdDeploy
+      steps:
+        - bash: echo Build ProdDeploy
